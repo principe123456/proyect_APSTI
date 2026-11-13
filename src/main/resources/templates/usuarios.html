@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Panel de administración | Seguridad Cloud</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body class="admin-page">
+<header class="topbar">
+    <a class="brand" th:href="@{/usuarios}"><span class="mini-shield">SC</span><span>Seguridad <strong>Cloud</strong></span></a>
+    <div class="top-user"><span class="user-avatar">A</span><span>Administrador</span><span class="user-chevron">⌄</span></div>
+</header>
+<div class="layout">
+    <aside class="sidebar">
+        <div class="sidebar-label">MENÚ PRINCIPAL</div>
+        <a class="active" th:href="@{/usuarios}"><span class="nav-icon">▦</span> Panel de usuarios</a>
+        <a th:href="@{/usuarios/nuevo}"><span class="nav-icon">＋</span> Registrar usuario</a>
+        <div class="sidebar-spacer"></div>
+        <div class="sidebar-label">CUENTA</div>
+        <form method="post" th:action="@{/logout}"><button class="side-logout" type="submit"><span class="nav-icon">↪</span> Cerrar sesión</button></form>
+        <div class="sidebar-foot">Sistema de administración<br><strong>Versión local</strong></div>
+    </aside>
+
+    <main class="content">
+        <section class="welcome-banner">
+            <div class="welcome-copy">
+                <span class="eyebrow">SISTEMA DE GESTIÓN</span>
+                <h1>Panel de administración</h1>
+                <p>Gestiona las cuentas, los roles y el acceso de los usuarios del sistema.</p>
+            </div>
+            <img class="welcome-image" th:src="@{/img/fondo-panel.png}"
+                 alt="Estudiantes trabajando en equipo y presentando el sistema Seguridad Cloud">
+        </section>
+
+        <div class="alert success" th:if="${mensaje}" th:text="${mensaje}"></div>
+        <div class="alert error" th:if="${error}" th:text="${error}"></div>
+
+        <section class="section-heading">
+            <div><span class="section-kicker">GESTIÓN Y CONTROL</span><h2>Administración de usuarios</h2><p>Consulta y administra las cuentas registradas.</p></div>
+            <a class="btn primary" th:href="@{/usuarios/nuevo}"><span>＋</span> Nuevo usuario</a>
+        </section>
+
+        <section class="table-card">
+            <div class="table-card-head"><div><h3>Usuarios registrados</h3><p>Listado general de cuentas del sistema</p></div><span class="table-tag">USUARIOS</span></div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>ID</th><th>Nombre completo</th><th>Correo electrónico</th><th>Rol</th><th>Estado</th><th>Acciones</th></tr></thead>
+                    <tbody>
+                    <tr th:each="u : ${usuarios}">
+                        <td class="id-cell" th:text="${u.id}"></td>
+                        <td><span class="person-cell"><span class="person-avatar" th:text="${#strings.substring(u.nombre,0,1).toUpperCase()}"></span><strong th:text="${u.nombre}"></strong></span></td>
+                        <td class="email-cell" th:text="${u.correo}"></td>
+                        <td><span class="role-pill" th:text="${u.rol}"></span></td>
+                        <td><span class="status-pill" th:classappend="${u.estado == 'Activo'} ? ' is-active' : ' is-inactive'"><span class="status-dot"></span><span th:text="${u.estado}"></span></span></td>
+                        <td class="actions"><a class="btn small edit-btn" th:href="@{/usuarios/editar/{id}(id=${u.id})}">✎ Editar</a>
+                            <form method="post" th:action="@{/usuarios/eliminar/{id}(id=${u.id})}" onsubmit="return confirm('¿Deseas eliminar este usuario?')"><button class="btn small delete-btn" type="submit">Eliminar</button></form></td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(usuarios)}"><td colspan="6" class="empty-state">Todavía no hay usuarios registrados.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-footer"><span>Los cambios se guardan en la base de datos local.</span><span>Seguridad Cloud</span></div>
+        </section>
+        <footer class="page-footer">© 2026 Seguridad Cloud · Panel de administración</footer>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Registro de usuario | Seguridad Cloud</title><link rel="stylesheet" th:href="@{/css/estilos.css}"></head>
+<body class="admin-page">
+<header class="topbar"><div class="brand"><span class="mini-shield">♙</span> Seguridad Cloud</div><div class="top-user">♟ Administrador <span>⌄</span></div></header>
+<div class="layout"><aside class="sidebar"><a th:href="@{/usuarios}">☷ &nbsp; Usuarios</a><a class="active" th:href="@{/usuarios/nuevo}">＋ &nbsp; Crear usuario</a>
+<form method="post" th:action="@{/logout}"><button class="side-logout">⇥ &nbsp; Cerrar sesión</button></form></aside>
+<main class="content"><section class="form-card"><h2>♟ <span th:text="${titulo}">Registro de usuario</span></h2>
+<div class="alert error" th:if="${error}" th:text="${error}"></div>
+<form method="post" th:action="@{/usuarios/guardar}" th:object="${usuario}">
+<input type="hidden" th:field="*{id}">
+<label for="nombre">Nombre completo</label><input id="nombre" type="text" th:field="*{nombre}" placeholder="Ingrese el nombre completo" required>
+<label for="correo">Correo electrónico</label><input id="correo" type="email" th:field="*{correo}" placeholder="usuario@correo.com" required>
+<label for="contrasena">Contraseña <small>(dejar vacía al editar para conservarla)</small></label><input id="contrasena" type="password" th:field="*{contrasena}" placeholder="Ingrese una contraseña" th:required="${usuario.id == null}">\n<div class="form-grid"><div><label for="rol">Rol del usuario</label><select id="rol" th:field="*{rol}"><option value="ADMIN">ADMIN</option><option value="EDITOR">EDITOR</option><option value="USUARIO">USUARIO</option></select></div>
+<div><label for="estado">Estado</label><select id="estado" th:field="*{estado}"><option value="Activo">Activo</option><option value="Inactivo">Inactivo</option></select></div></div>
+<div class="form-actions"><button class="btn primary" type="submit">▣ Guardar usuario</button><a class="btn gray" th:href="@{/usuarios}">↩ Volver</a></div>
+</form></section></main></div></body></html>

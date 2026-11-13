@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seguridad Cloud | Iniciar sesión</title>
+<link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body class="login-page">
+<div class="cloud cloud-one"></div><div class="cloud cloud-two"></div>
+<main class="login-card">
+<div class="shield">♙</div>
+<h1>Seguridad Cloud</h1><p class="muted">Iniciar sesión</p>
+<div class="alert error" th:if="${param.error}">Correo o contraseña incorrectos.</div>
+<div class="alert success" th:if="${param.logout}">Has cerrado sesión correctamente.</div>
+<form method="post" th:action="@{/login}">
+<label>Correo electrónico</label>
+<input type="email" name="username" placeholder="Correo electrónico" required autofocus>
+<label>Contraseña</label>
+<input type="password" name="password" placeholder="Contraseña" required>
+<button class="btn primary full" type="submit">↪ Ingresar</button>
+</form>
+<p class="register-note">ⓘ Ingresa con el correo y la contraseña de tu usuario activo.</p>
+</main>
+</body></html>
